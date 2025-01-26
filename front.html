@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>What Triangle?</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="./style.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+</style>
+<script src="./calculate.js"></script>
+
+<body>
+    <div class="card">
+        <form id="triangle-form">
+            <p id="head">Enter length of sides</p>
+
+            <div class="side-container">
+                <label for="side1">Side 1</label>
+                <input type="text" id="side1" class="side" name="side1">
+                <span class="error-message" id="error-side1"></span>
+            </div>
+
+            <div class="side-container">
+                <label for="side2">Side 2</label>
+                <input type="text" id="side2" class="side" name="side2">
+                <span class="error-message" id="error-side2"></span>
+            </div>
+
+            <div class="side-container">
+                <label for="side3">Side 3</label>
+                <input type="text" id="side3" class="side" name="side3">
+                <span class="error-message" id="error-side3"></span>
+            </div>
+
+            <p id="result">Result</p>
+            <div class="result">
+                <input type="button" id="enter" value="Enter">
+                <div id="triangle-name"></div>
+            </div>
+        </form>
+    </div>
+
+    <script src="./calculate.js"></script>
+    <script src="./validate.js"></script>
+
+    <script>
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                document.getElementById("enter").click();
+            }
+        });
+
+        document.getElementById("enter").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const sideAInput = document.getElementById("side1");
+            const sideBInput = document.getElementById("side2");
+            const sideCInput = document.getElementById("side3");
+
+            const sideA = parseFloat(sideAInput.value);
+            const sideB = parseFloat(sideBInput.value);
+            const sideC = parseFloat(sideCInput.value);
+
+            [sideAInput, sideBInput, sideCInput].forEach(input => {
+                input.style.border = "";
+                const errorMessage = document.getElementById(`error-${input.id}`);
+                errorMessage.innerText = "";
+            });
+
+            let hasError = false;
+
+            if (!isValidNumber(sideA)) {
+                sideAInput.style.border = "3px solid red";
+                document.getElementById("error-side1").innerText = "Please enter a valid number";
+                hasError = true;
+            }
+            if (!isValidNumber(sideB)) {
+                sideBInput.style.border = "3px solid red";
+                document.getElementById("error-side2").innerText = "Please enter a valid number";
+                hasError = true;
+            }
+            if (!isValidNumber(sideC)) {
+                sideCInput.style.border = "3px solid red";
+                document.getElementById("error-side3").innerText = "Please enter a valid number";
+                hasError = true;
+            }
+
+            if (hasError) {
+                document.getElementById("triangle-name").innerText = "Invalid numbers";
+                return;
+            }
+
+            function isTriangle(a, b, c) {
+                return a + b > c && a + c > b && b + c > a;
+            }
+
+            if (!isTriangle(sideA, sideB, sideC)) {
+                document.getElementById("triangle-name").innerText = "Not a triangle";
+            } else {
+                const triangleType = getTriangleType(sideA, sideB, sideC);
+                document.getElementById("triangle-name").innerText = `${triangleType} triangle`;
+            }
+        });
+        
+        document.getElementById("side1").addEventListener("input", function() {
+            resetInputStyle("side1");
+        });
+
+        document.getElementById("side2").addEventListener("input", function() {
+            resetInputStyle("side2");
+        });
+
+        document.getElementById("side3").addEventListener("input", function() {
+            resetInputStyle("side3");
+        });
+
+        function resetInputStyle(inputId) {
+            const input = document.getElementById(inputId);
+            input.style.border = "3px solid black";
+            document.getElementById(`error-${inputId}`).innerText = "";
+            document.getElementById("triangle-name").innerText = "";
+        }
+    </script>
+    
+</body>
+</html>
