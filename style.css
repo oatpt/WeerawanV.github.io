@@ -13,15 +13,19 @@ label{
     margin-left: 55px;
 }
 
-.card{
+.card {
     background-color: lightgrey;
     border: 2px solid lightgrey;
     border-radius: 10px;
-    width: 500px;
-    height: 360px;
+    width: 100%;
+    /* Change from fixed height to accommodate the visualization */
+    height: auto;
+    min-height: 360px;
+    max-width: 500px;
     box-sizing: border-box;
     padding: 30px 10px 30px 10px;
 }
+
 
 .result{
     display: flex;
@@ -105,4 +109,17 @@ label{
     left: 50%;
     width: 50%;
     font-family: "Nunito", serif;
+}
+
+#triangle-viz-container {
+    margin-top: 20px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+}
+
+#triangle-viz-container svg {
+    background-color: #ffe521;
+    border-radius: 5px;
+    padding: 10px;
 }
